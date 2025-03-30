@@ -1,0 +1,25 @@
+version: "3.4"
+
+services:
+  cumulusmx:
+    container_name: cumulusmx
+    image: ghcr.io/hucknz/cumulusmx:v4
+    restart: unless-stopped
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${DOCKERCONFDIR}/cumulusmx/data:/opt/CumulusMX/data
+      - ${DOCKERCONFDIR}/cumulusmx/backup:/opt/CumulusMX/backup
+      - ${DOCKERCONFDIR}/cumulusmx/log:/var/log/nginx
+      - ${DOCKERCONFDIR}/cumulusmx/MXdiags:/opt/CumulusMX/MXdiags
+      - ${DOCKERCONFDIR}/cumulusmx/config:/opt/CumulusMX/config
+      - ${DOCKERCONFDIR}/cumulusmx/publicweb:/opt/CumulusMX/publicweb
+      - ${DOCKERCONFDIR}/cumulusmx/templates:/opt/CumulusMX/web
+      - ${DOCKERCONFDIR}/cumulusmx/reports:/opt/CumulusMX/Reports
+    ports:
+      - 8998:8998
+      - 8009:80
+      - 3306:3306  

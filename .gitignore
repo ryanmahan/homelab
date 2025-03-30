@@ -1,0 +1,21 @@
+# ~/ .gitignore - Attempt 2: Ignore everything except docker-compose.yml files
+
+# 1. Ignore all files initially, but make exceptions for directories.
+*.*
+*
+
+# 2. DO NOT ignore directories (ensures Git traverses into them).
+# This will un-ignore 'arr/' and any other directory in '~/'
+!*/
+
+# 3. DO NOT ignore the .gitignore file itself.
+# This refers to ~/.gitignore
+!/.gitignore
+
+# 4. DO NOT ignore docker-compose files anywhere *below this level*.
+# This will match ~/arr/docker-compose.yml, ~/arr/subdir/docker-compose.yml, etc.
+!**/docker-compose.yml
+!**/docker-compose.yaml
+
+# 5. Explicitly ignore .env files anywhere (best practice)
+**/.env

@@ -1,0 +1,35 @@
+version: "3.8"
+services:
+  wg-easy:
+    environment:
+      # ⚠️ Required:
+      # Change this to your host's public address
+      - WG_HOST=fwd.ryanmahan.dev
+
+      # Optional:
+      - PASSWORD=gavel@163
+      - WG_PORT=51820
+      #- WG_DEFAULT_ADDRESS=172.16.100.x
+      #- WG_DEFAULT_DNS=1.1.1.1
+      - WG_DEVICE=eno2
+      #- WG_MTU=1420
+      - WG_ALLOWED_IPS=192.168.0.0/24,0.0.0.0/0
+      # - WG_PRE_UP=echo "Pre Up" > /etc/wireguard/pre-up.txt
+      # - WG_POST_UP=echo "Post Up" > /etc/wireguard/post-up.txt
+      # - WG_PRE_DOWN=echo "Pre Down" > /etc/wireguard/pre-down.txt
+      # - WG_POST_DOWN=echo "Post Down" > /etc/wireguard/post-down.txt
+      
+    image: weejewel/wg-easy
+    container_name: wg-easy
+    volumes:
+      - .:/etc/wireguard
+    ports:
+      - "51820:51820/udp"
+      - "51821:51821/tcp"
+    restart: always
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    sysctls:
+      - net.ipv4.ip_forward=1
+      - net.ipv4.conf.all.src_valid_mark=1
