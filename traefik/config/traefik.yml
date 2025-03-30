@@ -1,0 +1,27 @@
+log:
+  level: DEBUG
+
+api:
+  insecure: true
+  dashboard: true
+providers:
+  docker:
+    defaultRule: "Host(`{{index .Labels \"com.docker.compose.service\" }}.mahan.family`)"
+    network: traefik
+  file:
+    filename: "/etc/traefik/dynamic.yml"
+entrypoints:
+  web:
+    address: ":80"
+  websecure:
+    address: ":443"
+
+certificatesResolvers:
+  fwd-letsencrypt: 
+    acme:
+      email: ryanmahan97@gmail.com
+      storage: /letsencrypt/acme.json
+      # caServer: "https://acme-staging-v02.api.letsencrypt.org/directory" #! TESTING
+      caServer: "https://acme-v02.api.letsencrypt.org/directory" #! PRODUCTION
+      httpChallenge:
+        entryPoint: web
